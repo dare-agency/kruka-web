@@ -83,10 +83,14 @@ export default function Home() {
   const yHero = useTransform(scrollY, [0, 1000], [0, 300]);
 
   return (
-    // AQUI ESTÁ A CORREÇÃO DO CURSOR:
-    // cursor-auto (padrão mobile) 
-    // lg:cursor-none (apenas em telas grandes/PC)
-    <main className="min-h-screen font-sans selection:bg-green-500 selection:text-white overflow-x-hidden cursor-auto lg:cursor-none bg-[#F5F7F5]">
+    // CORREÇÃO MÓVEL: 
+    // 1. select-none: Impede selecionar texto/imagem ao clicar
+    // 2. style={{ WebkitTapHighlightColor: "transparent" }}: Remove o "flash" de toque no Android/iOS
+    // 3. cursor-auto lg:cursor-none: Garante comportamento nativo no mobile
+    <main 
+      className="min-h-screen font-sans selection:bg-green-500 selection:text-white overflow-x-hidden cursor-auto lg:cursor-none bg-[#F5F7F5] select-none"
+      style={{ WebkitTapHighlightColor: "transparent" }}
+    >
       <NoiseOverlay />
 
       {/* --- HERO SECTION --- */}
@@ -167,7 +171,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- KRUKA VISION (FOCO INVERTIDO CORRIGIDO) --- */}
+      {/* --- KRUKA VISION (BLUR PURO, SEM ESCURECER) --- */}
       <section className="py-32 bg-white text-neutral-900 relative rounded-t-[3rem] -mt-10 z-10 shadow-2xl">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -200,21 +204,20 @@ export default function Home() {
               </div>
             </div>
 
-            {/* IMAGEM COM EFEITO DUPLA CAMADA (BLUR FORA / NÍTIDO DENTRO) */}
-            <div className="relative w-full aspect-[4/5] bg-neutral-900 rounded-[2rem] overflow-hidden shadow-2xl border-[1px] border-neutral-200 group">
+            {/* IMAGEM COM EFEITO DE FOCO (Sem Escurecer) */}
+            <div className="relative w-full aspect-[4/5] bg-neutral-100 rounded-[2rem] overflow-hidden shadow-2xl border-[1px] border-neutral-200 group">
               
-              {/* 1. FUNDO: Desfocado e Escuro */}
+              {/* 1. FUNDO: Apenas desfocado (blur-md). REMOVIDO 'brightness-[0.4]' */}
               <div className="absolute inset-0 z-0">
                 <Image 
                   src="/img/kruka-vision.png" 
                   alt="Background Blur" 
                   fill 
-                  className="object-cover object-center blur-sm brightness-[0.4]"
+                  className="object-cover object-center blur-md" 
                 />
               </div>
 
-              {/* 2. FRENTE: Nítido (recortado com clip-path) */}
-              {/* O 'clipPath' cria uma janela transparente onde a imagem nítida aparece */}
+              {/* 2. FRENTE: Nítido e com recorte */}
               <div 
                 className="absolute inset-0 z-10"
                 style={{ 
@@ -231,7 +234,7 @@ export default function Home() {
 
               {/* 3. HUD (INTERFACE) */}
               <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-                <div className="w-[60%] aspect-square border border-white/40 rounded-[1.5rem] relative backdrop-blur-none shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+                <div className="w-[60%] aspect-square border border-white/40 rounded-[1.5rem] relative backdrop-blur-none shadow-[0_0_30px_rgba(0,0,0,0.1)]">
                    
                    {/* Cantos */}
                    <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-green-400 rounded-tl-lg shadow-[0_0_10px_#22c55e]"/>
@@ -284,7 +287,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- O APP (MOCKUP FLAT RESTAURADO & MANJERICÃO) --- */}
+      {/* --- O APP (MOCKUP FLAT) --- */}
       <section className="py-32 bg-neutral-900 text-white relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
