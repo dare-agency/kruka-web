@@ -83,7 +83,9 @@ export default function Home() {
   const yHero = useTransform(scrollY, [0, 1000], [0, 300]);
 
   return (
-    <main className="min-h-screen font-sans selection:bg-green-500 selection:text-white overflow-x-hidden cursor-none bg-[#F5F7F5]">
+     <main className="min-h-screen font-sans selection:bg-green-500 selection:text-white overflow-x-hidden cursor-auto lg:cursor-none bg-[#F5F7F5]">
+      
+      {/* HERO SECTION */}
       <NoiseOverlay />
 
       {/* --- HERO SECTION --- */}
@@ -164,12 +166,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- KRUKA VISION --- */}
+{/* --- KRUKA VISION (COM EFEITO DE FOCO INVERTIDO) --- */}
       <section className="py-32 bg-white text-neutral-900 relative rounded-t-[3rem] -mt-10 z-10 shadow-2xl">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             
-            {/* TEXTO */}
+            {/* TEXTO (Mantido igual) */}
             <div>
               <div className="inline-flex items-center gap-2 text-green-700 font-bold mb-6 uppercase tracking-wider text-[10px] border border-green-200 bg-green-50 px-3 py-1 rounded-full">
                 <ScanEye size={14} /> Kruka Vision™
@@ -197,27 +199,54 @@ export default function Home() {
               </div>
             </div>
 
-            {/* IMAGEM */}
-            <div className="relative w-full aspect-[4/5] bg-neutral-100 rounded-[2rem] overflow-hidden shadow-2xl border-[1px] border-neutral-200 group">
-              <Image 
-                src="/img/kruka-vision.png" 
-                alt="Visão IA Manjericão" 
-                fill 
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-1000" 
-              />
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-[60%] aspect-square border border-white/40 rounded-[1.5rem] relative backdrop-blur-[2px]">
-                   <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-green-400 rounded-tl-lg"/>
-                   <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-green-400 rounded-tr-lg"/>
-                   <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-green-400 rounded-bl-lg"/>
-                   <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-green-400 rounded-br-lg"/>
+            {/* IMAGEM COM EFEITO "FOCUS" */}
+            <div className="relative w-full aspect-[4/5] bg-neutral-900 rounded-[2rem] overflow-hidden shadow-2xl border-[1px] border-neutral-200 group">
+              
+              {/* CAMADA 1: FUNDO DESFOCADO (O Lado de Fora) */}
+              <div className="absolute inset-0 z-0">
+                <Image 
+                  src="/img/kruka-vision.png" 
+                  alt="Background Blur" 
+                  fill 
+                  className="object-cover object-center blur-md scale-110 brightness-[0.4]" // Blur forte + Escurecido
+                />
+              </div>
 
-                   <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"/>
+              {/* CAMADA 2: QUADRADO NÍTIDO (O Lado de Dentro) */}
+              {/* Usamos clipPath para "recortar" apenas o centro desta imagem nítida */}
+              <div 
+                className="absolute inset-0 z-10 transition-transform duration-1000 group-hover:scale-105"
+                style={{ 
+                  // Recorta a imagem: Top 26%, Right 20%, Bottom 26%, Left 20% (Cria o quadrado central)
+                  clipPath: "inset(26% 20% 26% 20% round 1.5rem)" 
+                }}
+              >
+                <Image 
+                  src="/img/kruka-vision.png" 
+                  alt="Visão IA Manjericão" 
+                  fill 
+                  className="object-cover object-center" // Imagem NÍTIDA
+                />
+              </div>
+
+              {/* CAMADA 3: INTERFACE (HUD) */}
+              <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+                <div className="w-[60%] aspect-square border border-white/40 rounded-[1.5rem] relative backdrop-blur-none shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+                   
+                   {/* Cantos do Scanner */}
+                   <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-green-400 rounded-tl-lg shadow-[0_0_10px_#22c55e]"/>
+                   <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-green-400 rounded-tr-lg shadow-[0_0_10px_#22c55e]"/>
+                   <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-green-400 rounded-bl-lg shadow-[0_0_10px_#22c55e]"/>
+                   <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-green-400 rounded-br-lg shadow-[0_0_10px_#22c55e]"/>
+
+                   {/* Tag Live Feed */}
+                   <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg flex items-center gap-2 border border-white/10">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"/>
                       <span className="text-[10px] text-white font-mono tracking-widest">LIVE FEED</span>
                    </div>
 
-                   <div className="absolute bottom-4 left-4 right-4 bg-neutral-900/80 backdrop-blur-md p-3 rounded-xl border border-white/10">
+                   {/* Dados da IA */}
+                   <div className="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-xl p-3 rounded-xl border border-white/10">
                       <div className="flex justify-between items-center text-[10px] font-mono text-neutral-400 mb-1">
                         <span>TARGET CLASS</span>
                         <span>CONFIDENCE</span>
