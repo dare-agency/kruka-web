@@ -83,9 +83,10 @@ export default function Home() {
   const yHero = useTransform(scrollY, [0, 1000], [0, 300]);
 
   return (
-     <main className="min-h-screen font-sans selection:bg-green-500 selection:text-white overflow-x-hidden cursor-auto lg:cursor-none bg-[#F5F7F5]">
-      
-      {/* HERO SECTION */}
+    // AQUI ESTÁ A CORREÇÃO DO CURSOR:
+    // cursor-auto (padrão mobile) 
+    // lg:cursor-none (apenas em telas grandes/PC)
+    <main className="min-h-screen font-sans selection:bg-green-500 selection:text-white overflow-x-hidden cursor-auto lg:cursor-none bg-[#F5F7F5]">
       <NoiseOverlay />
 
       {/* --- HERO SECTION --- */}
@@ -166,12 +167,12 @@ export default function Home() {
         </div>
       </section>
 
-{/* --- KRUKA VISION (COM EFEITO DE FOCO INVERTIDO) --- */}
+      {/* --- KRUKA VISION (FOCO INVERTIDO CORRIGIDO) --- */}
       <section className="py-32 bg-white text-neutral-900 relative rounded-t-[3rem] -mt-10 z-10 shadow-2xl">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             
-            {/* TEXTO (Mantido igual) */}
+            {/* TEXTO */}
             <div>
               <div className="inline-flex items-center gap-2 text-green-700 font-bold mb-6 uppercase tracking-wider text-[10px] border border-green-200 bg-green-50 px-3 py-1 rounded-full">
                 <ScanEye size={14} /> Kruka Vision™
@@ -199,53 +200,52 @@ export default function Home() {
               </div>
             </div>
 
-            {/* IMAGEM COM EFEITO "FOCUS" */}
+            {/* IMAGEM COM EFEITO DUPLA CAMADA (BLUR FORA / NÍTIDO DENTRO) */}
             <div className="relative w-full aspect-[4/5] bg-neutral-900 rounded-[2rem] overflow-hidden shadow-2xl border-[1px] border-neutral-200 group">
               
-              {/* CAMADA 1: FUNDO DESFOCADO (O Lado de Fora) */}
+              {/* 1. FUNDO: Desfocado e Escuro */}
               <div className="absolute inset-0 z-0">
                 <Image 
                   src="/img/kruka-vision.png" 
                   alt="Background Blur" 
                   fill 
-                  className="object-cover object-center blur-md scale-110 brightness-[0.4]" // Blur forte + Escurecido
+                  className="object-cover object-center blur-sm brightness-[0.4]"
                 />
               </div>
 
-              {/* CAMADA 2: QUADRADO NÍTIDO (O Lado de Dentro) */}
-              {/* Usamos clipPath para "recortar" apenas o centro desta imagem nítida */}
+              {/* 2. FRENTE: Nítido (recortado com clip-path) */}
+              {/* O 'clipPath' cria uma janela transparente onde a imagem nítida aparece */}
               <div 
-                className="absolute inset-0 z-10 transition-transform duration-1000 group-hover:scale-105"
+                className="absolute inset-0 z-10"
                 style={{ 
-                  // Recorta a imagem: Top 26%, Right 20%, Bottom 26%, Left 20% (Cria o quadrado central)
-                  clipPath: "inset(26% 20% 26% 20% round 1.5rem)" 
+                  clipPath: "inset(22% 20% 22% 20% round 1.5rem)" 
                 }}
               >
                 <Image 
                   src="/img/kruka-vision.png" 
                   alt="Visão IA Manjericão" 
                   fill 
-                  className="object-cover object-center" // Imagem NÍTIDA
+                  className="object-cover object-center"
                 />
               </div>
 
-              {/* CAMADA 3: INTERFACE (HUD) */}
+              {/* 3. HUD (INTERFACE) */}
               <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
                 <div className="w-[60%] aspect-square border border-white/40 rounded-[1.5rem] relative backdrop-blur-none shadow-[0_0_30px_rgba(0,0,0,0.3)]">
                    
-                   {/* Cantos do Scanner */}
+                   {/* Cantos */}
                    <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-green-400 rounded-tl-lg shadow-[0_0_10px_#22c55e]"/>
                    <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-green-400 rounded-tr-lg shadow-[0_0_10px_#22c55e]"/>
                    <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-green-400 rounded-bl-lg shadow-[0_0_10px_#22c55e]"/>
                    <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-green-400 rounded-br-lg shadow-[0_0_10px_#22c55e]"/>
 
-                   {/* Tag Live Feed */}
+                   {/* Tag Live */}
                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg flex items-center gap-2 border border-white/10">
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"/>
                       <span className="text-[10px] text-white font-mono tracking-widest">LIVE FEED</span>
                    </div>
 
-                   {/* Dados da IA */}
+                   {/* Dados */}
                    <div className="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-xl p-3 rounded-xl border border-white/10">
                       <div className="flex justify-between items-center text-[10px] font-mono text-neutral-400 mb-1">
                         <span>TARGET CLASS</span>
@@ -284,7 +284,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- O APP (MOCKUP ORIGINAL RESTAURADO) --- */}
+      {/* --- O APP (MOCKUP FLAT RESTAURADO & MANJERICÃO) --- */}
       <section className="py-32 bg-neutral-900 text-white relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -319,20 +319,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* --- MOCKUP DO APP (ESTILO ORIGINAL / FLAT) --- */}
+            {/* --- MOCKUP FLAT & CLEAN --- */}
             <div className="relative mx-auto lg:mx-0">
-               {/* Restaurei o estilo para o design anterior:
-                 - Borda fina (border-8)
-                 - Sem gradientes pesados
-                 - Sem efeitos 3D complexos
-                 - Tamanho compacto
-               */}
                <div className="relative z-10 bg-black rounded-[3rem] h-[600px] w-[300px] shadow-2xl border-[8px] border-neutral-800 mx-auto overflow-hidden">
                  
                  {/* Tela */}
                  <div className="h-full w-full bg-neutral-950 p-6 flex flex-col relative">
                     
-                    {/* Dynamic Island Simple */}
+                    {/* Dynamic Island */}
                     <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-6 bg-black rounded-full z-20"></div>
                     
                     {/* Header */}
@@ -344,7 +338,7 @@ export default function Home() {
                        <div className="w-8 h-8 bg-neutral-800 rounded-full flex items-center justify-center text-xs text-white">A</div>
                     </div>
                     
-                    {/* Card Principal */}
+                    {/* Card Status */}
                     <div className="bg-neutral-900 p-5 rounded-3xl mb-6 relative overflow-hidden">
                        <div className="flex justify-between items-start mb-8">
                           <div>
