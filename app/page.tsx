@@ -83,10 +83,6 @@ export default function Home() {
   const yHero = useTransform(scrollY, [0, 1000], [0, 300]);
 
   return (
-    // CORREÇÃO MÓVEL: 
-    // 1. select-none: Impede selecionar texto/imagem ao clicar
-    // 2. style={{ WebkitTapHighlightColor: "transparent" }}: Remove o "flash" de toque no Android/iOS
-    // 3. cursor-auto lg:cursor-none: Garante comportamento nativo no mobile
     <main 
       className="min-h-screen font-sans selection:bg-green-500 selection:text-white overflow-x-hidden cursor-auto lg:cursor-none bg-[#F5F7F5] select-none"
       style={{ WebkitTapHighlightColor: "transparent" }}
@@ -171,7 +167,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- KRUKA VISION (BLUR PURO, SEM ESCURECER) --- */}
+      {/* --- KRUKA VISION (FUNDO CLARO AGORA!) --- */}
       <section className="py-32 bg-white text-neutral-900 relative rounded-t-[3rem] -mt-10 z-10 shadow-2xl">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -204,16 +200,16 @@ export default function Home() {
               </div>
             </div>
 
-            {/* IMAGEM COM EFEITO DE FOCO (Sem Escurecer) */}
+            {/* IMAGEM: AGORA COM FUNDO CLARO (bg-neutral-100) */}
             <div className="relative w-full aspect-[4/5] bg-neutral-100 rounded-[2rem] overflow-hidden shadow-2xl border-[1px] border-neutral-200 group">
               
-              {/* 1. FUNDO: Apenas desfocado (blur-md). REMOVIDO 'brightness-[0.4]' */}
+              {/* 1. FUNDO: Apenas desfocado (sem escurecer) */}
               <div className="absolute inset-0 z-0">
                 <Image 
                   src="/img/kruka-vision.png" 
                   alt="Background Blur" 
                   fill 
-                  className="object-cover object-center blur-md" 
+                  className="object-cover object-center blur-md" // Removi o filtro escuro
                 />
               </div>
 
