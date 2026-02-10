@@ -26,7 +26,7 @@ export default function ClubPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-neutral-900 text-white pt-32 pb-20">
+    <main className="min-h-screen font-sans selection:bg-green-500 selection:text-white overflow-x-hidden cursor-auto lg:cursor-none bg-[#F5F7F5]">
       
       {/* HERO SECTION */}
       <div className="container mx-auto px-6 text-center mb-20">
